@@ -63,7 +63,12 @@ func main() {
 		logger.Error().Str("error", err.Error()).Msg("unable to configure kafka")
 		return
 	}
-	defer kafkaProducer.Close()
+	defer func(kafkaProducer *kafka.Writer) {
+		err := kafkaProducer.Close()
+		if err != nil {
+
+		}
+	}(kafkaProducer)
 	var errChan = make(chan error, 1)
 
 	go func() {
