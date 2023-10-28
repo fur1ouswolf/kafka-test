@@ -109,7 +109,10 @@ func postDataToKafka(ctx *gin.Context) {
 		Text string `form:"text" json:"text"`
 	}{"Hello, here we go!"}
 
-	ctx.Bind(form)
+	err := ctx.Bind(form)
+	if err != nil {
+		return
+	}
 	formInBytes, err := json.Marshal(form)
 	if err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, map[string]interface{}{
